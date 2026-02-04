@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pytesseract
+Pillow
+pdf2image
+pdfplumber
+PyMuPDF
+opencv-python
+numpy
+python-docx
+fuzzywuzzy
+python-Levenshtein

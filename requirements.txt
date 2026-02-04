@@ -6,6 +6,7 @@ Pillow
 pdf2image
 pdfplumber
 PyMuPDF
+PyPDF2
 opencv-python
 numpy
 python-docx

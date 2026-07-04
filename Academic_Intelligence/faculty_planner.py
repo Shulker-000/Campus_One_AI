@@ -27,7 +27,7 @@ from pydantic import BaseModel
 from typing import Optional
 
 from langchain_groq import ChatGroq
-from langchain_community.document_loaders import PyPDFLoader, UnstructuredPowerPointLoader
+from langchain_community.document_loaders import PyMuPDFLoader, UnstructuredPowerPointLoader
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 
@@ -52,7 +52,7 @@ def _ext(filename: str) -> str:
 def _load_file_text(file_path: str, filename: str) -> str:
     ext = _ext(filename)
     if ext == "pdf":
-        docs = PyPDFLoader(file_path).load()
+        docs = PyMuPDFLoader(file_path).load()
     elif ext in ("ppt", "pptx"):
         docs = UnstructuredPowerPointLoader(file_path).load()
     elif ext in ("txt", "md"):

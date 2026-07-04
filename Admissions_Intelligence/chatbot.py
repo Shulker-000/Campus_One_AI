@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
-from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.retrievers import BM25Retriever
 from langchain_classic.retrievers import EnsembleRetriever
@@ -25,7 +25,7 @@ DOCS_BASE   = os.path.join(BASE, "raw_docs")
 os.makedirs(VECTOR_BASE, exist_ok=True)
 os.makedirs(DOCS_BASE, exist_ok=True)
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "models", "all-MiniLM-L6-v2")
+MODEL_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "models", "all-MiniLM-L6-v2")
 
 llm = ChatGroq(
     model=os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile"),
@@ -50,7 +50,7 @@ def get_session_history(session_id: str) -> ChatMessageHistory:
 
 
 def ingest_pdf(clgcode: str, clg_name: str, pdf_path: str):
-    loader = PyPDFLoader(pdf_path)
+    loader = PyMuPDFLoader(pdf_path)
     documents = loader.load()
 
     for doc in documents:

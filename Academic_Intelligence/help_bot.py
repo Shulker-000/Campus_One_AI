@@ -14,7 +14,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import StrOutputParser
-from langchain_community.document_loaders import PyPDFLoader, UnstructuredPowerPointLoader
+from langchain_community.document_loaders import PyMuPDFLoader, UnstructuredPowerPointLoader
 from langchain_core.documents import Document
 
 
@@ -24,7 +24,7 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 PERSISTENT_DIR = os.getenv("PERSISTENT_DIR", ".")
 HELPBOT_CHROMA_DIR = os.path.join(PERSISTENT_DIR, "vectorstore", "helpbot")
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "models", "all-MiniLM-L6-v2")
+MODEL_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "models", "all-MiniLM-L6-v2")
 
 llm = ChatGroq(
     model=os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile"),
@@ -77,7 +77,7 @@ def _ext(filename: str) -> str:
 def _load_document(file_path: str, filename: str) -> list[Document]:
     ext = _ext(filename)
     if ext == "pdf":
-        return PyPDFLoader(file_path).load()
+        return PyMuPDFLoader(file_path).load()
     elif ext in ("ppt", "pptx"):
         return UnstructuredPowerPointLoader(file_path).load()
     elif ext in ("txt", "md"):

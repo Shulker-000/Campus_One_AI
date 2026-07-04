@@ -1,5 +1,4 @@
 import json
-from PyPDF2 import PdfReader
 import fitz
 import pytesseract
 from PIL import Image
@@ -18,16 +17,15 @@ def preprocess_image(pil_img):
     return Image.fromarray(gray)
 
 
-def extract_with_pypdf2(path):
+def extract_with_pymupdf(path):
     if isinstance(path, bytes):
-        reader = PdfReader(BytesIO(path))
+        doc = fitz.open(stream=path, filetype="pdf")
     else:
-        reader = PdfReader(path)
+        doc = fitz.open(path)
 
     text = ""
-
-    for page in reader.pages:
-        t = page.extract_text()
+    for page in doc:
+        t = page.get_text()
         if t:
             text += t + "\n"
     return text.strip()
@@ -62,7 +60,7 @@ def extract_with_ocr(path):
 
 def pdf2text_hybrid(path):
     try:
-        text = extract_with_pypdf2(path)
+        text = extract_with_pymupdf(path)
         if len(text) > 100:
             return text
         return extract_with_ocr(path)
